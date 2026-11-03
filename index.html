@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chilli Hub V7</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --red: #ff3038;
+    --dark-red: #a90012;
+    --black: #080808;
+    --gray: #a1a1aa;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 20px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background:
+        radial-gradient(ellipse at 50% 40%, #301014 0%, transparent 48%),
+        radial-gradient(ellipse at 10% 90%, #25090d 0%, transparent 40%),
+        #080808;
+}
+
+/* Background grid */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: linear-gradient(to bottom, transparent, black, transparent);
+}
+
+/* Ambient glow */
+.ambient {
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: rgba(255, 20, 35, .12);
+    filter: blur(100px);
+    animation: ambientMove 8s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+.ambient.one {
+    top: -150px;
+    left: -100px;
+}
+
+.ambient.two {
+    bottom: -180px;
+    right: -100px;
+    animation-delay: -4s;
+}
+
+@keyframes ambientMove {
+    from { transform: translate(0, 0) scale(.9); }
+    to { transform: translate(70px, 40px) scale(1.2); }
+}
+
+/* Main card */
+.card {
+    position: relative;
+    width: 100%;
+    max-width: 410px;
+    padding: 38px 28px 28px;
+    text-align: center;
+    overflow: hidden;
+    border: 1px solid rgba(255, 65, 75, .22);
+    border-radius: 25px;
+    background: linear-gradient(145deg,
+        rgba(29, 24, 25, .96),
+        rgba(10, 10, 11, .97));
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.65),
+        0 0 45px rgba(255,30,45,.09),
+        inset 0 1px rgba(255,255,255,.06);
+    animation: cardEnter .8s cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes cardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 15%;
+    width: 70%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ff454f, transparent);
+    box-shadow: 0 0 18px #ff3038;
+}
+
+/* Logo */
+.logo {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 27px;
+    background: linear-gradient(145deg, #351014, #16090b);
+    border: 1px solid rgba(255, 65, 75, .45);
+    box-shadow:
+        0 0 30px rgba(255, 35, 45, .2),
+        inset 0 0 22px rgba(255, 35, 45, .1);
+    animation: logoFloat 4s ease-in-out infinite;
+}
+
+.logo::before {
+    content: "";
+    position: absolute;
+    inset: -7px;
+    border: 1px dashed rgba(255, 75, 85, .38);
+    border-radius: 31px;
+    animation: orbit 18s linear infinite;
+}
+
+.logo span {
+    font-size: 55px;
+    filter: drop-shadow(0 5px 12px rgba(255, 30, 30, .35));
+    animation: chiliFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+}
+
+@keyframes chiliFloat {
+    0%, 100% { transform: rotate(-7deg) scale(1); }
+    50% { transform: rotate(7deg) scale(1.07); }
+}
+
+@keyframes orbit {
+    to { transform: rotate(360deg); }
+}
+
+/* Title */
+.title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(30px, 8vw, 43px);
+    font-weight: 900;
+    letter-spacing: 1.8px;
+    line-height: 1.15;
+    text-transform: uppercase;
+    background: linear-gradient(
+        110deg,
+        #ffffff 0%,
+        #ffc2c5 25%,
+        #ff424c 55%,
+        #b50015 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 3px 12px rgba(255,35,35,.28));
+    animation: titleGradient 5s ease infinite, titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGradient {
+    to { background-position: 200% center; }
+}
+
+@keyframes titleGlow {
+    from { filter: drop-shadow(0 2px 8px rgba(255,35,35,.2)); }
+    to { filter: drop-shadow(0 3px 17px rgba(255,35,35,.48)); }
+}
+
+.subtitle {
+    margin-top: 11px;
+    color: #a1a1aa;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* Divider */
+.divider {
+    width: 65px;
+    height: 3px;
+    margin: 23px auto;
+    border-radius: 10px;
+    background: linear-gradient(90deg, transparent, #ff3038, transparent);
+    box-shadow: 0 0 12px rgba(255, 48, 56, .55);
+}
+
+/* Key label */
+.key-label {
+    text-align: left;
+    margin-bottom: 10px;
+    color: #d4d4d8;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+/* Key display */
+.key-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 16px 14px;
+    border-radius: 13px;
+    border: 1px solid rgba(255, 60, 70, .24);
+    background: rgba(0,0,0,.42);
+    box-shadow: inset 0 0 18px rgba(255,30,40,.035);
+}
+
+.key-text {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    text-align: left;
+    color: #f5b6ba;
+    font-size: 12px;
+    line-height: 1.6;
+    font-weight: 700;
+    letter-spacing: .3px;
+}
+
+/* Copy button */
+.copy-btn {
+    position: relative;
+    width: 100%;
+    margin-top: 17px;
+    padding: 16px;
+    border: 0;
+    border-radius: 12px;
+    color: white;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    overflow: hidden;
+    background: linear-gradient(110deg, #a90012, #ff3038, #c60018);
+    background-size: 200% auto;
+    box-shadow: 0 7px 24px rgba(255, 30, 45, .2);
+    transition: transform .25s ease, box-shadow .25s ease;
+    animation: buttonGradient 5s linear infinite;
+}
+
+.copy-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
+    transform: skewX(-20deg);
+    transition: left .6s ease;
+}
+
+.copy-btn:hover::before {
+    left: 150%;
+}
+
+.copy-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255,30,45,.35);
+}
+
+.copy-btn:active {
+    transform: scale(.97);
+}
+
+@keyframes buttonGradient {
+    to { background-position: 200% center; }
+}
+
+/* Status */
+.status {
+    min-height: 18px;
+    margin-top: 13px;
+    color: #85858d;
+    font-size: 11px;
+    font-weight: 600;
+    transition: color .2s ease;
+}
+
+.status.success {
+    color: #70e69a;
+}
+
+/* Footer */
+.footer {
+    margin-top: 25px;
+    padding-top: 17px;
+    border-top: 1px solid rgba(255,255,255,.07);
+    color: #66666e;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* Floating particles */
+.particle {
+    position: fixed;
+    bottom: -20px;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #ff424c;
+    box-shadow: 0 0 10px #ff3038;
+    opacity: .5;
+    pointer-events: none;
+    animation: particleUp linear infinite;
+}
+
+@keyframes particleUp {
+    from {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    15% { opacity: .65; }
+    85% { opacity: .35; }
+    to {
+        transform: translateY(-110vh) translateX(35px);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 34px 22px 24px;
+        border-radius: 22px;
+    }
+
+    .logo {
+        width: 88px;
+        height: 88px;
+    }
+
+    .logo span {
+        font-size: 49px;
+    }
+
+    .title {
+        letter-spacing: 1.2px;
+    }
+
+    .key-text {
+        font-size: 11px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="ambient one"></div>
+<div class="ambient two"></div>
+
+<main class="card">
+
+    <div class="logo">
+        <span>🌶️</span>
+    </div>
+
+    <h1 class="title">Chilli Hub V7</h1>
+    <p class="subtitle">Premium Key System</p>
+
+    <div class="divider"></div>
+
+    <div class="key-label">Your Access Key</div>
+
+    <div class="key-box">
+        <div class="key-text" id="keyText">
+            ChilliHubV7KeyJakeo - KskowjwniLaowiwh
+        </div>
+    </div>
+
+    <button class="copy-btn" id="copyButton" onclick="copyKey()">
+        Copy Key
+    </button>
+
+    <div class="status" id="status">
+        Click the button to copy your key
+    </div>
+
+    <div class="footer">
+        CHILLI HUB V7 · PREMIUM ACCESS
+    </div>
+
+</main>
+
+<script>
+const KEY = "ChilliHubV7KeyJakeo - KskowjwniLaowiwh";
+
+async function copyKey() {
+    const button = document.getElementById("copyButton");
+    const status = document.getElementById("status");
+
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(KEY);
+        } else {
+            const textarea = document.createElement("textarea");
+            textarea.value = KEY;
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            const copied = document.execCommand("copy");
+            textarea.remove();
+
+            if (!copied) throw new Error("Copy failed");
+        }
+
+        button.textContent = "✓ Copied Successfully";
+        status.textContent = "Your key has been copied!";
+        status.classList.add("success");
+
+        setTimeout(() => {
+            button.textContent = "Copy Key";
+            status.textContent = "Click the button to copy your key";
+            status.classList.remove("success");
+        }, 2200);
+
+    } catch (error) {
+        button.textContent = "Copy Failed";
+        status.textContent = "Please select and copy the key manually.";
+        status.classList.remove("success");
+
+        setTimeout(() => {
+            button.textContent = "Copy Key";
+        }, 2200);
+    }
+}
+
+/* Create floating background particles */
+for (let i = 0; i < 22; i++) {
+    const particle = document.createElement("div");
+    particle.className = "particle";
+
+    particle.style.left = Math.random() * 100 + "%";
+    particle.style.animationDuration = (7 + Math.random() * 9) + "s";
+    particle.style.animationDelay = (Math.random() * 9) + "s";
+    particle.style.opacity = (0.2 + Math.random() * 0.5).toString();
+
+    const size = 2 + Math.random() * 3;
+    particle.style.width = size + "px";
+    particle.style.height = size + "px";
+
+    document.body.appendChild(particle);
+}
+</script>
+
+</body>
+</html>
